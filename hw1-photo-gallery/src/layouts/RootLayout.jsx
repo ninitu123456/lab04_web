@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router';
+import PageSkeleton from '../components/PageSkeleton.jsx';
 
 /** Callback className của NavLink (React Router v7 — thay cho activeClassName v5). */
 const navLinkClass = ({ isActive }) => (isActive ? 'nav-link nav-link--active' : 'nav-link');
@@ -32,7 +34,10 @@ export default function RootLayout() {
       </header>
 
       <main id="main-content" className="site-main">
-        <Outlet />
+        {/* Suspense boundary cho các route lazy — fallback cùng kích thước nội dung thật. */}
+        <Suspense fallback={<PageSkeleton />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <footer className="site-footer">
