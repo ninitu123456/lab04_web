@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { CATEGORIES, PHOTOS } from '../../data/photos.js';
 import {
   filterPhotos,
@@ -28,6 +28,7 @@ export default function GalleryPage() {
   const visiblePhotos = filterPhotos(PHOTOS, category);
   const categoryLabel = CATEGORIES.find((c) => c.id === category)?.label;
   const selectedPhoto = findPhotoById(PHOTOS, photoId);
+  const isUnknownPhoto = Boolean(photoId) && !selectedPhoto;
 
   // Vị trí ảnh trong danh sách ĐANG LỌC (derived state — không useState).
   const indexInView = visiblePhotos.findIndex((p) => p.id === photoId);
@@ -59,6 +60,17 @@ export default function GalleryPage() {
           ? `Không tìm thấy danh mục “${category}”. Hãy chọn một danh mục khác.`
           : `Đang hiển thị ${visiblePhotos.length} ảnh${categoryLabel ? ` — ${categoryLabel}` : ''}`}
       </p>
+
+      {isUnknownPhoto && (
+        <div role="alert" className="alert">
+          <p>
+            Không tìm thấy ảnh “{photoId}”. Ảnh có thể đã bị xoá hoặc đường link bị sai.
+          </p>
+          <Link className="button" to={{ search: withParams(searchParams, { [PARAM_PHOTO]: null }) }}>
+            Bỏ qua và xem thư viện
+          </Link>
+        </div>
+      )}
 
       <PhotoGrid photos={visiblePhotos} />
 

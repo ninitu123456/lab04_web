@@ -16,7 +16,7 @@
 | 9 | Implement | feat: native html dialog lightbox synced to url | [x] |
 | 10 | Implement | feat: keyboard prev/next navigation and focus return | [x] |
 | 11 | Refactor | perf: route-level code splitting with lazy and suspense skeleton | [x] |
-| 12 | Implement | feat: 404 route and invalid photoId boundary | [ ] |
+| 12 | Implement | feat: 404 route and invalid photoId boundary | [x] |
 | 13 | Refactor | a11y: skip link, focus-visible, aria labels, contrast | [ ] |
 | 14 | Refactor | perf: responsive images, explicit dimensions, lighthouse tuning | [ ] |
 | 15 | Docs | docs: hw1 readme, lighthouse report and ai failure audit | [ ] |
