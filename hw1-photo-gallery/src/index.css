@@ -167,3 +167,7 @@ a { color: var(--color-accent); }
   cursor: pointer;
 }
 .icon-button:hover { border-color: var(--color-accent); }
+/* ---------- Lightbox navigation ---------- */
+.lightbox__nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.lightbox__position { margin: 0; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.icon-button:disabled { opacity: 0.5; cursor: not-allowed; }

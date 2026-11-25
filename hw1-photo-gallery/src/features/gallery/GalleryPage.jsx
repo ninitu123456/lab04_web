@@ -3,6 +3,7 @@ import { CATEGORIES, PHOTOS } from '../../data/photos.js';
 import {
   filterPhotos,
   findPhotoById,
+  getAdjacentPhotoId,
   isValidCategory,
   PARAM_CATEGORY,
   PARAM_PHOTO,
@@ -28,9 +29,23 @@ export default function GalleryPage() {
   const categoryLabel = CATEGORIES.find((c) => c.id === category)?.label;
   const selectedPhoto = findPhotoById(PHOTOS, photoId);
 
+  // Vị trí ảnh trong danh sách ĐANG LỌC (derived state — không useState).
+  const indexInView = visiblePhotos.findIndex((p) => p.id === photoId);
+  const inView = indexInView !== -1;
+  const prevId = inView ? getAdjacentPhotoId(visiblePhotos, photoId, -1) : undefined;
+  const nextId = inView ? getAdjacentPhotoId(visiblePhotos, photoId, 1) : undefined;
+  const position = inView ? { index: indexInView + 1, total: visiblePhotos.length } : undefined;
+
+  /** Chuyển ảnh: replace để nút Back của trình duyệt đóng lightbox thay vì lùi từng ảnh. */
+  const navigateTo = (id) => {
+    setSearchParams(withParams(searchParams, { [PARAM_PHOTO]: id }), { replace: true });
+  };
+
   const closeLightbox = () => {
-    if (!searchParams.has(PARAM_PHOTO)) return;
+    if (!photoId) return;
     setSearchParams(withParams(searchParams, { [PARAM_PHOTO]: null }));
+    // WCAG 2.4.3 Focus Order: trả focus về thẻ ảnh tương ứng (kể cả sau khi đã chuyển ảnh).
+    document.querySelector(`[data-photo-id="${photoId}"]`)?.focus();
   };
 
   return (
@@ -47,7 +62,14 @@ export default function GalleryPage() {
 
       <PhotoGrid photos={visiblePhotos} />
 
-      <Lightbox photo={selectedPhoto} onClose={closeLightbox} />
+      <Lightbox
+        photo={selectedPhoto}
+        onClose={closeLightbox}
+        onNavigate={navigateTo}
+        prevId={prevId}
+        nextId={nextId}
+        position={position}
+      />
     </section>
   );
 }

@@ -10,12 +10,18 @@ const dateFormatter = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'long' });
  * - Mọi đường đóng (nút Đóng, phím Esc, click backdrop) đều đi qua sự kiện "close"
  *   → onClose() → xoá photoId khỏi URL.
  *
+ * Điều hướng: nút Trước/Sau + phím ← → (chỉ trong danh sách đang lọc).
+ *
  * @param {{
  *   photo: import('../../data/photos.js').Photo | undefined,
  *   onClose: () => void,
+ *   onNavigate?: (photoId: string) => void,
+ *   prevId?: string,
+ *   nextId?: string,
+ *   position?: { index: number, total: number },
  * }} props
  */
-export default function Lightbox({ photo, onClose }) {
+export default function Lightbox({ photo, onClose, onNavigate, prevId, nextId, position }) {
   const dialogRef = useRef(/** @type {HTMLDialogElement | null} */ (null));
   const titleId = useId();
   const isOpen = Boolean(photo);
@@ -32,6 +38,16 @@ export default function Lightbox({ photo, onClose }) {
     if (event.target === event.currentTarget) event.currentTarget.close();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowLeft' && prevId) {
+      event.preventDefault();
+      onNavigate?.(prevId);
+    } else if (event.key === 'ArrowRight' && nextId) {
+      event.preventDefault();
+      onNavigate?.(nextId);
+    }
+  };
+
   const categoryLabel = CATEGORIES.find((c) => c.id === photo?.category)?.label;
 
   return (
@@ -41,6 +57,7 @@ export default function Lightbox({ photo, onClose }) {
       aria-labelledby={titleId}
       onClose={onClose}
       onClick={handleBackdropClick}
+      onKeyDown={handleKeyDown}
     >
       {photo && (
         <div className="lightbox__body">
@@ -65,6 +82,32 @@ export default function Lightbox({ photo, onClose }) {
             height={photo.height}
             className="lightbox__img"
           />
+
+          <div className="lightbox__nav">
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Ảnh trước"
+              disabled={!prevId}
+              onClick={() => prevId && onNavigate?.(prevId)}
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            {position && (
+              <p className="lightbox__position" aria-live="polite">
+                Ảnh {position.index} / {position.total}
+              </p>
+            )}
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Ảnh sau"
+              disabled={!nextId}
+              onClick={() => nextId && onNavigate?.(nextId)}
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
 
           <p className="lightbox__desc">{photo.description}</p>
 
