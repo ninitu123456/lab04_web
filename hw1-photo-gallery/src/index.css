@@ -232,3 +232,21 @@ code {
   background: var(--color-surface-2);
   font-size: 0.95em;
 }
+/* ---------- A11y: skip link + main focus ---------- */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
+.site-main:focus { outline: none; }
+/* WCAG 2.4.11 Focus Not Obscured: phần tử nhận focus không bị header sticky che */
+html { scroll-padding-top: calc(var(--header-h) + 1rem); }

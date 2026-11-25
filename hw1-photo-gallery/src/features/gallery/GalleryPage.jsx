@@ -9,6 +9,7 @@ import {
   PARAM_PHOTO,
   withParams,
 } from '../../lib/gallery.js';
+import { pageTitle } from '../../lib/pageTitle.js';
 import CategoryFilter from './CategoryFilter.jsx';
 import Lightbox from './Lightbox.jsx';
 import PhotoGrid from './PhotoGrid.jsx';
@@ -51,6 +52,8 @@ export default function GalleryPage() {
 
   return (
     <section className="page" aria-labelledby="gallery-heading">
+      {/* React 19: <title> render ở bất kỳ đâu sẽ được hoist lên <head>. */}
+      <title>{pageTitle(selectedPhoto?.title, categoryLabel, 'Thư viện ảnh')}</title>
       <h1 id="gallery-heading">Thư viện ảnh</h1>
 
       <CategoryFilter active={category} />

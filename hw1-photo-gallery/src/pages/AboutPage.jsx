@@ -1,6 +1,9 @@
+import { pageTitle } from '../lib/pageTitle.js';
+
 export default function AboutPage() {
   return (
     <section className="page">
+      <title>{pageTitle('Giới thiệu')}</title>
       <h1>Giới thiệu</h1>
       <dl className="meta-list">
         <dt>Môn học</dt>

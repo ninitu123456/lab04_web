@@ -1,5 +1,5 @@
-import { Suspense } from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { Suspense, useEffect, useRef } from 'react';
+import { NavLink, Outlet, useLocation } from 'react-router';
 import PageSkeleton from '../components/PageSkeleton.jsx';
 
 /** Callback className của NavLink (React Router v7 — thay cho activeClassName v5). */
@@ -12,11 +12,29 @@ const NAV_ITEMS = [
 ];
 
 export default function RootLayout() {
+  const { pathname } = useLocation();
+  const mainRef = useRef(/** @type {HTMLElement | null} */ (null));
+  const isFirstRender = useRef(true);
+
+  // SPA không tải lại trang → screen reader không biết đã sang trang mới.
+  // Khi đổi ROUTE (pathname, không tính query string) → đưa focus về <main>.
+  // Bỏ qua lần render đầu để không cướp focus khi vừa mở trang.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    mainRef.current?.focus();
+  }, [pathname]);
+
   return (
     <div className="layout">
+      <a href="#main-content" className="skip-link">
+        Bỏ qua tới nội dung chính
+      </a>
       <header className="site-header">
         <div className="site-header__inner">
-          <span className="brand" aria-hidden="true">
+          <span className="brand">
             UIT<span className="brand__accent">·</span>Evidence
           </span>
           <nav aria-label="Điều hướng chính">
@@ -33,7 +51,7 @@ export default function RootLayout() {
         </div>
       </header>
 
-      <main id="main-content" className="site-main">
+      <main id="main-content" className="site-main" ref={mainRef} tabIndex={-1}>
         {/* Suspense boundary cho các route lazy — fallback cùng kích thước nội dung thật. */}
         <Suspense fallback={<PageSkeleton />}>
           <Outlet />
