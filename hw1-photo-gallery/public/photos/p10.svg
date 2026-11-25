@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b0764"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+<rect width="100%" height="100%" fill="url(#g)"/><circle cx="1019" cy="67" r="90" fill="#f3e8ff" fill-opacity="0.21"/><circle cx="1151" cy="61" r="191" fill="#f3e8ff" fill-opacity="0.37"/><circle cx="982" cy="199" r="137" fill="#f3e8ff" fill-opacity="0.47"/><circle cx="986" cy="58" r="183" fill="#f3e8ff" fill-opacity="0.49"/><circle cx="793" cy="693" r="63" fill="#f3e8ff" fill-opacity="0.40"/><circle cx="653" cy="555" r="159" fill="#f3e8ff" fill-opacity="0.24"/><circle cx="109" cy="729" r="111" fill="#f3e8ff" fill-opacity="0.41"/><circle cx="1056" cy="318" r="48" fill="#f3e8ff" fill-opacity="0.49"/><circle cx="813" cy="348" r="156" fill="#f3e8ff" fill-opacity="0.38"/>
+<text x="60" y="730" font-family="system-ui,sans-serif" font-size="64" font-weight="700" fill="#ffffff">P10</text>
+</svg>

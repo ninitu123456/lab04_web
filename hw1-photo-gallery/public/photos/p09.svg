@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14532d"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
+<rect width="100%" height="100%" fill="url(#g)"/><circle cx="971" cy="198" r="126" fill="#dcfce7" fill-opacity="0.49"/><circle cx="16" cy="10" r="96" fill="#dcfce7" fill-opacity="0.42"/><circle cx="18" cy="213" r="212" fill="#dcfce7" fill-opacity="0.47"/><circle cx="298" cy="769" r="58" fill="#dcfce7" fill-opacity="0.38"/><circle cx="261" cy="8" r="212" fill="#dcfce7" fill-opacity="0.20"/><circle cx="71" cy="409" r="65" fill="#dcfce7" fill-opacity="0.38"/><circle cx="913" cy="510" r="82" fill="#dcfce7" fill-opacity="0.19"/><circle cx="61" cy="154" r="41" fill="#dcfce7" fill-opacity="0.43"/><circle cx="1145" cy="663" r="92" fill="#dcfce7" fill-opacity="0.48"/>
+<text x="60" y="730" font-family="system-ui,sans-serif" font-size="64" font-weight="700" fill="#ffffff">P09</text>
+</svg>
