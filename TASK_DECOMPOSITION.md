@@ -10,7 +10,7 @@
 | 3 | Setup | chore: add react-router v7 and vitest testing setup | [x] |
 | 4 | Contract | feat: add photo data contract and category model | [x] |
 | 5 | Fail Test | test: add failing test for url-driven category filter | [x] |
-| 6 | Implement | feat: add react router v7 layout with outlet and navlink | [ ] |
+| 6 | Implement | feat: add react router v7 layout with outlet and navlink | [x] |
 | 7 | Implement | feat: implement category filter via useSearchParams | [ ] |
 | 8 | Fail Test | test: add failing test for photoId lightbox deep link | [ ] |
 | 9 | Implement | feat: native html dialog lightbox synced to url | [ ] |

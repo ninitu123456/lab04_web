@@ -1,17 +1,30 @@
+import RootLayout from './layouts/RootLayout.jsx';
+import HomePage from './pages/HomePage.jsx';
+import AboutPage from './pages/AboutPage.jsx';
+import GalleryPage from './features/gallery/GalleryPage.jsx';
+
 /**
  * ROUTE CONTRACT — HW1
  *
- *  /                      → <Layout> + <HomePage>      (index)
- *  /gallery               → <Layout> + <GalleryPage>   (toàn bộ ảnh)
+ *  /                      → <RootLayout> + <HomePage>      (index)
+ *  /gallery               → <RootLayout> + <GalleryPage>   (toàn bộ ảnh)
  *  /gallery?category=<id> → lọc theo danh mục (deep link)
- *  /gallery?photoId=<id>  → mở lightbox <dialog>      (deep link)
- *  /about                 → <Layout> + <AboutPage>
- *  *                      → <Layout> + <NotFoundPage>
+ *  /gallery?photoId=<id>  → mở lightbox <dialog>          (deep link)
+ *  /about                 → <RootLayout> + <AboutPage>
+ *  *                      → <RootLayout> + <NotFoundPage>  (commit 12)
  *
  * Mảng `routes` dùng chung cho createBrowserRouter (app thật)
  * và createMemoryRouter (test).
- *
- * TODO(commit 6): hiện thực layout + các route.
  * @type {import('react-router').RouteObject[]}
  */
-export const routes = [];
+export const routes = [
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'gallery', element: <GalleryPage /> },
+      { path: 'about', element: <AboutPage /> },
+    ],
+  },
+];
