@@ -48,3 +48,19 @@ export function getAdjacentPhotoId(list, currentId, direction) {
   const next = (index + direction + list.length) % list.length;
   return list[next].id;
 }
+/**
+ * Tạo query string mới từ URLSearchParams hiện tại + các thay đổi.
+ * Giá trị null/undefined/'' → xoá key. Giữ nguyên các param khác (vd: category).
+ * @param {URLSearchParams} current
+ * @param {Record<string, string | null | undefined>} updates
+ * @returns {string} dạng "?a=1&b=2" hoặc "" nếu rỗng
+ */
+export function withParams(current, updates) {
+  const next = new URLSearchParams(current);
+  for (const [key, value] of Object.entries(updates)) {
+    if (value === null || value === undefined || value === '') next.delete(key);
+    else next.set(key, value);
+  }
+  const qs = next.toString();
+  return qs ? `?${qs}` : '';
+}
