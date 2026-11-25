@@ -6,8 +6,8 @@
 | # | Stage | Commit | Status |
 |---|---|---|---|
 | 1 | Contract | docs: define contract spec in project-rules.md | [x] |
-| 2 | Setup | init: scaffold hw1 photo gallery with vite + react 19 | [ ] |
-| 3 | Setup | chore: add react-router v7 and vitest testing setup | [ ] |
+| 2 | Setup | init: scaffold hw1 photo gallery with vite + react 19 | [x] |
+| 3 | Setup | chore: add react-router v7 and vitest testing setup | [x] |
 | 4 | Contract | feat: add photo data contract and category model | [ ] |
 | 5 | Fail Test | test: add failing test for url-driven category filter | [ ] |
 | 6 | Implement | feat: add react router v7 layout with outlet and navlink | [ ] |
