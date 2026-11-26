@@ -2,9 +2,17 @@ import { useId, useRef } from 'react';
 import { DIRECTIONS, directionFromDelta, directionFromKey } from '../lib/deck.js';
 import SwipeCard from './SwipeCard.jsx';
 
+/** Phần tử nhập liệu — Backspace phải giữ hành vi xoá chữ. */
+function isTextInput(target) {
+  return (
+    target instanceof HTMLElement &&
+    (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
+  );
+}
+
 /**
  * Deck vuốt thẻ — DUAL listener:
- * - Bàn phím: gắn trên vùng deck `tabIndex={0}`: ← NOPE, → LIKE, ↑ SUPER.
+ * - Bàn phím: gắn trên vùng deck `tabIndex={0}`: ← NOPE, → LIKE, ↑ SUPER, Backspace = hoàn tác.
  * - Pointer (chuột/cảm ứng/bút): kéo |dx| > 50px trái/phải, dy < −50px lên.
  * - 4 nút thật (Bỏ qua / Siêu thích / Thích / Hoàn tác) cho người không dùng được 2 cách trên.
  *
@@ -18,9 +26,10 @@ import SwipeCard from './SwipeCard.jsx';
  *   onSwipe: (direction: import('../lib/deck.js').Direction) => void,
  *   onUndo?: () => void,
  *   canUndo?: boolean,
+ *   emptyState?: import('react').ReactNode,
  * }} props
  */
-export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo = false }) {
+export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo = false, emptyState = 'Hết thẻ rồi!' }) {
   const hintId = useId();
   /** Điểm bắt đầu kéo — ref vì không ảnh hưởng tới UI render (chỉ dùng khi tính delta). */
   const startRef = useRef(/** @type {{ x: number, y: number, pointerId: number } | null} */ (null));
@@ -37,6 +46,12 @@ export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo
   };
 
   const handleKeyDown = (event) => {
+    if (event.key === 'Backspace') {
+      if (isTextInput(event.target)) return; // để người dùng xoá chữ bình thường
+      event.preventDefault(); // tránh trình duyệt điều hướng lùi / hành vi mặc định
+      if (canUndo) onUndo?.();
+      return;
+    }
     const direction = directionFromKey(event.key);
     if (!direction) return;
     event.preventDefault(); // ← → ↑ không cuộn trang
@@ -79,7 +94,7 @@ export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo
       onKeyDown={handleKeyDown}
     >
       <p id={hintId} className="deck__hint">
-        Phím tắt: ← Bỏ qua · → Thích · ↑ Siêu thích. Hoặc kéo thẻ sang trái / phải / lên.
+        Phím tắt: ← Bỏ qua · → Thích · ↑ Siêu thích · Backspace Hoàn tác. Hoặc kéo thẻ sang trái / phải / lên.
       </p>
 
       <div
@@ -96,7 +111,7 @@ export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo
             <SwipeCard profile={profile} />
           </div>
         ) : (
-          <p className="deck__empty">Hết thẻ rồi!</p>
+          <div className="deck__empty">{emptyState}</div>
         )}
       </div>
 
@@ -133,7 +148,7 @@ export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo
         <button
           type="button"
           className="action action--undo"
-          aria-label="Hoàn tác lần vuốt gần nhất"
+          aria-label="Hoàn tác lần vuốt gần nhất (phím Backspace)"
           disabled={!canUndo || !onUndo}
           onClick={() => onUndo?.()}
         >

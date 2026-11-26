@@ -29,7 +29,7 @@
 | 1 | init: scaffold hw2 client + express/mongoose 8 server | [x] |
 | 2 | feat: profile & swipe models with async/await REST API | [x] |
 | 3 | feat: swipe deck with dual keyboard/pointer listeners | [x] |
-| 4 | feat: lifo undo stack and asymmetric derived score | [ ] |
+| 4 | feat: lifo undo stack and asymmetric derived score | [x] |
 | 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [ ] |
 
 ## HW3 — Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)

@@ -100,6 +100,12 @@ describe('SwipeDeck pointer listener', () => {
     expect(onSwipe).not.toHaveBeenCalled();
   });
 
+  it('pointer drag does nothing when the deck is empty', () => {
+    const { onSwipe, stage } = setup({ profile: undefined, remaining: 0 });
+    drag(stage, 120, 0);
+    expect(onSwipe).not.toHaveBeenCalled();
+  });
+
   it('pointercancel aborts the drag', () => {
     const { onSwipe, stage } = setup();
     fireEvent.pointerDown(stage, { pointerId: 1, clientX: 0, clientY: 0, button: 0, pointerType: 'mouse' });
