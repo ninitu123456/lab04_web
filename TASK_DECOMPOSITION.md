@@ -22,7 +22,15 @@
 | 15 | Docs | docs: hw1 readme, lighthouse report and ai failure audit | [x] |
 
 ## HW2 — Full-Stack Card-Swipe Deck ("Hẹn Hò Nhưng Không Yêu")
-_Sẽ phân rã khi bắt đầu HW2._
+**Spec:** dual keyboard/pointer listener, LIFO undo stack, asymmetric derived score, Express + Mongoose 8 async/await.
+
+| # | Commit | Status |
+|---|---|---|
+| 1 | init: scaffold hw2 client + express/mongoose 8 server | [x] |
+| 2 | feat: profile & swipe models with async/await REST API | [ ] |
+| 3 | feat: swipe deck with dual keyboard/pointer listeners | [ ] |
+| 4 | feat: lifo undo stack and asymmetric derived score | [ ] |
+| 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [ ] |
 
 ## HW3 — Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)
 _Sẽ phân rã khi bắt đầu HW3._
