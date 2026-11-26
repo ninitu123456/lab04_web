@@ -29,7 +29,7 @@ npm run dev                 # http://localhost:5173 (proxy /api → :4000)
 
 | Lệnh | Server | Client |
 |---|---|---|
-| `npm test` | 20 test (supertest + DB test) | 74 test (Testing Library + jsdom) |
+| `npm test` | 20 test (supertest + DB test) | 75 test (Testing Library + jsdom) |
 | `npm run lint` | — | oxlint |
 | `npm run build` | — | build production vào `dist/` |
 | khác | `npm run seed`, `npm start` | `npm run gen:avatars` (sinh lại SVG trong `public/avatars/`) |

@@ -88,6 +88,18 @@ describe('SwipeDeck pointer listener', () => {
     expect(onSwipe).toHaveBeenCalledExactlyOnceWith(direction);
   });
 
+  it('drag feedback: sets translate + a valid rotate angle while dragging, resets on release', () => {
+    const { stage } = setup();
+    fireEvent.pointerDown(stage, { pointerId: 1, clientX: 0, clientY: 0, button: 0, pointerType: 'mouse' });
+    fireEvent.pointerMove(stage, { pointerId: 1, clientX: 80, clientY: 10, pointerType: 'mouse' });
+    expect(stage.style.getPropertyValue('--drag-x')).toBe('80px');
+    expect(stage.style.getPropertyValue('--drag-rot')).toBe('4deg'); // góc, không phải px
+    expect(stage).toHaveAttribute('data-dragging', 'true');
+    fireEvent.pointerUp(stage, { pointerId: 1, clientX: 80, clientY: 10, pointerType: 'mouse' });
+    expect(stage.style.getPropertyValue('--drag-rot')).toBe('0deg');
+    expect(stage).toHaveAttribute('data-dragging', 'false');
+  });
+
   it('drag shorter than 50px does not swipe', () => {
     const { onSwipe, stage } = setup();
     drag(stage, 40, -30);

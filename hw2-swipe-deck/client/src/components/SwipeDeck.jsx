@@ -42,6 +42,7 @@ export default function SwipeDeck({ profile, remaining, onSwipe, onUndo, canUndo
     if (!el) return;
     el.style.setProperty('--drag-x', `${dx}px`);
     el.style.setProperty('--drag-y', `${dy}px`);
+    el.style.setProperty('--drag-rot', `${dx / 20}deg`); // nghiêng theo hướng kéo (đơn vị góc hợp lệ)
     el.dataset.dragging = dx || dy ? 'true' : 'false';
   };
 

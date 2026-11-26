@@ -46,6 +46,7 @@ img { display: block; max-width: 100%; height: auto; }
 .deck__stage {
   --drag-x: 0px;
   --drag-y: 0px;
+  --drag-rot: 0deg;
   position: relative;
   min-height: 560px;
   touch-action: none; /* pointer events nhận được cử chỉ kéo trên màn hình cảm ứng */
@@ -54,7 +55,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .deck__stage[data-dragging='true'] { cursor: grabbing; }
 .deck__card {
-  transform: translate(var(--drag-x), var(--drag-y)) rotate(calc(var(--drag-x) / 20));
+  /* Góc nghiêng tính sẵn bằng JS (đơn vị deg) — rotate(calc(px / 20)) ra độ dài, không phải góc → transform bị bỏ (AI-030). */
+  transform: translate(var(--drag-x), var(--drag-y)) rotate(var(--drag-rot));
   animation: card-enter 220ms ease-out;
 }
 .deck__stage[data-dragging='true'] .deck__card { transition: none; }
