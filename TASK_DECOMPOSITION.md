@@ -30,7 +30,7 @@
 | 2 | feat: profile & swipe models with async/await REST API | [x] |
 | 3 | feat: swipe deck with dual keyboard/pointer listeners | [x] |
 | 4 | feat: lifo undo stack and asymmetric derived score | [x] |
-| 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [ ] |
+| 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [x] |
 
 ## HW3 — Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)
 _Sẽ phân rã khi bắt đầu HW3._

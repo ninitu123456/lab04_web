@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import { computeScore, computeStats } from '../lib/score.js';
 
 /**
@@ -16,7 +16,10 @@ const initialState = { history: [], lastEvent: null };
 
 /**
  * @param {DeckState} state
- * @param {{ type: 'swipe', entry: HistoryEntry } | { type: 'undo' }} action
+ * @param {{ type: 'swipe' | 'reinsert', entry: HistoryEntry }
+ *   | { type: 'undo' }
+ *   | { type: 'restore', history: HistoryEntry[] }
+ *   | { type: 'remove', id: string }} action
  * @returns {DeckState}
  */
 export function deckReducer(state, action) {
@@ -31,6 +34,19 @@ export function deckReducer(state, action) {
       if (!entry) return state;
       // LIFO: pop phần tử cuối → thẻ đó quay lại đầu deck.
       return { history: state.history.slice(0, -1), lastEvent: { type: 'undo', entry } };
+    }
+    case 'restore':
+      // Khôi phục stack từ server khi tải trang (thay toàn bộ lịch sử cục bộ).
+      return { history: [...action.history], lastEvent: null };
+    case 'remove': {
+      // Rollback một lần vuốt mà server không lưu được.
+      const history = state.history.filter((e) => e.id !== action.id);
+      return history.length === state.history.length ? state : { history, lastEvent: null };
+    }
+    case 'reinsert': {
+      // Rollback một lần undo mà server không xoá được → đặt lại lên đỉnh stack.
+      if (state.history.some((e) => e.profileId === action.entry.profileId)) return state;
+      return { history: [...state.history, action.entry], lastEvent: null };
     }
     default:
       return state;
@@ -70,6 +86,11 @@ export function useSwipeDeck(profiles) {
     return entry;
   };
 
+  // Các action dùng cho đồng bộ server — identity ổn định (dispatch không đổi giữa các render).
+  const restore = useCallback((entries) => dispatch({ type: 'restore', history: entries }), []);
+  const remove = useCallback((id) => dispatch({ type: 'remove', id }), []);
+  const reinsert = useCallback((entry) => dispatch({ type: 'reinsert', entry }), []);
+
   return {
     history,
     lastEvent,
@@ -80,5 +101,8 @@ export function useSwipeDeck(profiles) {
     canUndo: history.length > 0,
     swipe,
     undo,
+    restore,
+    remove,
+    reinsert,
   };
 }

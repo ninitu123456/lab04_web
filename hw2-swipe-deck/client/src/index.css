@@ -121,3 +121,41 @@ img { display: block; max-width: 100%; height: auto; }
 .summary__title { margin: 0 0 0.5rem; }
 .summary__text { margin: 0 0 0.5rem; color: var(--color-muted); font-size: 1rem; }
 .summary__score { margin: 0 0 0.75rem; font-size: 1.25rem; }
+
+/* ---------- Loading / errors ---------- */
+.deck-skeleton__card {
+  min-height: 560px;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--color-surface) 0%, var(--color-surface-2) 50%, var(--color-surface) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+.load-error, .sync-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: var(--color-nope-ink);
+  color: var(--color-text);
+}
+.load-error p, .sync-error p { margin: 0; }
+.load-error .action { padding-inline: 1rem; }
+.sync-error__close {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 1.125rem;
+  cursor: pointer;
+}
+.sync-error__close:hover { background: rgb(255 255 255 / 0.1); }
