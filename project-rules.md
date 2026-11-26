@@ -19,7 +19,7 @@
 ## 3. Atomic Git Commits
 - Mỗi commit chỉ một phạm vi, dùng Conventional Commits:
   `init:` `feat:` `fix:` `test:` `refactor:` `perf:` `a11y:` `docs:` `chore:`
-- Mỗi homework tối thiểu **12 commit**.
+- HW1 tối thiểu 12 commit; HW2, HW3 tối thiểu 5 commit.
 - Không commit `node_modules`, `dist`, `.env`.
 
 ## 4. Banned Patterns (Deprecation Audit)
