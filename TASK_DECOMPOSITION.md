@@ -39,6 +39,6 @@
 |---|---|---|
 | 1 | init: scaffold hw3 client, server and shared validation contract | [x] |
 | 2 | feat: dossier & appeal models, rest api with shared validation parity | [x] |
-| 3 | feat: multi-route dossier navigation with derived disproportionality matrix | [ ] |
+| 3 | feat: multi-route dossier navigation with derived disproportionality matrix | [x] |
 | 4 | feat: context-driven appeal form engine with real-time validation | [ ] |
 | 5 | feat: zero-drift useAppealSlaTimer with visibilitychange resync + post-mortem docs | [ ] |
