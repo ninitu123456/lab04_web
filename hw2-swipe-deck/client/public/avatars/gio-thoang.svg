@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-label="Avatar minh hoạ Lê Gió Thoảng">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(282 70% 42%)"/>
+      <stop offset="1" stop-color="hsl(322 65% 24%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <circle cx="200" cy="420" r="150" fill="hsl(322 45% 16%)"/>
+  <circle cx="200" cy="185" r="92" fill="#c98e6b"/>
+  <circle cx="168" cy="175" r="10" fill="#1f2937"/>
+  <circle cx="232" cy="175" r="10" fill="#1f2937"/>
+  <path d="M 180 215 Q 200 235 220 215" stroke="#1f2937" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <text x="200" y="372" text-anchor="middle" font-family="system-ui, sans-serif" font-size="44" font-weight="700" fill="#ffffff">GT</text>
+</svg>
