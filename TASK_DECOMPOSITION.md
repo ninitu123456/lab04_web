@@ -1,7 +1,7 @@
-# Task Decomposition (WBS) — Lab 04
+# Task Decomposition (WBS) â€” Lab 04
 
-## HW1 — Production Multi-Route Photo & Evidence Gallery SPA
-**Spec:** deep linking bằng `useSearchParams` (category + photoId), lightbox bằng `<dialog>` gốc, WCAG 2.2 AA, Lighthouse 100/100.
+## HW1 â€” Production Multi-Route Photo & Evidence Gallery SPA
+**Spec:** deep linking báº±ng `useSearchParams` (category + photoId), lightbox báº±ng `<dialog>` gá»‘c, WCAG 2.2 AA, Lighthouse 100/100.
 
 | # | Stage | Commit | Status |
 |---|---|---|---|
@@ -21,16 +21,16 @@
 | 14 | Refactor | perf: responsive images, explicit dimensions, lighthouse tuning | [x] |
 | 15 | Docs | docs: hw1 readme, lighthouse report and ai failure audit | [x] |
 
-## HW2 — Full-Stack Card-Swipe Deck ("Hẹn Hò Nhưng Không Yêu")
+## HW2 â€” Full-Stack Card-Swipe Deck ("Háº¹n HÃ² NhÆ°ng KhÃ´ng YÃªu")
 **Spec:** dual keyboard/pointer listener, LIFO undo stack, asymmetric derived score, Express + Mongoose 8 async/await.
 
 | # | Commit | Status |
 |---|---|---|
 | 1 | init: scaffold hw2 client + express/mongoose 8 server | [x] |
-| 2 | feat: profile & swipe models with async/await REST API | [ ] |
+| 2 | feat: profile & swipe models with async/await REST API | [x] |
 | 3 | feat: swipe deck with dual keyboard/pointer listeners | [ ] |
 | 4 | feat: lifo undo stack and asymmetric derived score | [ ] |
 | 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [ ] |
 
-## HW3 — Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)
-_Sẽ phân rã khi bắt đầu HW3._
+## HW3 â€” Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)
+_Sáº½ phÃ¢n rÃ£ khi báº¯t Ä‘áº§u HW3._
