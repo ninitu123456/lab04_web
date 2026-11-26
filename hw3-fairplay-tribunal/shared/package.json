@@ -1,0 +1,16 @@
+{
+  "name": "hw3-shared",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Rule validate dùng chung client/server (ESM thuần, không phụ thuộc runtime)",
+  "exports": {
+    "./appealRules.js": "./appealRules.js"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.2"
+  }
+}

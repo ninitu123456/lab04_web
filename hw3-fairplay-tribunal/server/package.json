@@ -1,0 +1,27 @@
+{
+  "name": "hw3-server",
+  "version": "1.0.0",
+  "description": "HW3 Fair-Play Appeal Tribunal API",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "node --watch --env-file=.env src/server.js",
+    "start": "node --env-file=.env src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "mongoose": "^8.24.11"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.4.0",
+    "supertest": "^7.3.2",
+    "vitest": "^5.1.2"
+  }
+}

@@ -33,4 +33,12 @@
 | 5 | feat: persist swipes via useSwipeApi hook with AbortController + docs | [x] |
 
 ## HW3 — Full-Stack Esports Fair-Play Appeal Tribunal (Himass & TanVuu)
-_Sẽ phân rã khi bắt đầu HW3._
+**Spec:** route động `/dossier/:playerId` (useParams), appeal form engine điều khiển bằng Context + validate đồng bộ trong render, zero-drift SLA countdown (đồng hồ tuyệt đối + resync khi `visibilitychange`), disproportionality matrix (useMemo), client/server validation parity (`shared/`).
+
+| # | Commit | Status |
+|---|---|---|
+| 1 | init: scaffold hw3 client, server and shared validation contract | [x] |
+| 2 | feat: dossier & appeal models, rest api with shared validation parity | [ ] |
+| 3 | feat: multi-route dossier navigation with derived disproportionality matrix | [ ] |
+| 4 | feat: context-driven appeal form engine with real-time validation | [ ] |
+| 5 | feat: zero-drift useAppealSlaTimer with visibilitychange resync + post-mortem docs | [ ] |
