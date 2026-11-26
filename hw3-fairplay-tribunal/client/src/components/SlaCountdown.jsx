@@ -38,7 +38,8 @@ export default function SlaCountdown({ deadline, offset, onResync, synced = fals
         </p>
       )}
       <p className="sla__deadline">
-        Hết hạn lúc <time dateTime={deadline}>{dateFormatter.format(new Date(deadline))}</time>
+        {/* Intl vi-VN (dateStyle + timeStyle) đã tự chèn chữ "lúc" → không viết thêm (AI-031). */}
+        Thời điểm hết hạn: <time dateTime={deadline}>{dateFormatter.format(new Date(deadline))}</time>
       </p>
       <p className="sla__sync">
         {syncError

@@ -41,7 +41,7 @@
 | AI-017 | HW2 | Test API bằng `mongodb-memory-server` | `npm install -D mongodb-memory-server` treo hơn 10 phút: postinstall tải `mongodb-windows-x86_64-8.2.6.zip` đứng ở 64 KB | Sai môi trường (mạng) | File `.zip.downloading` không tăng kích thước | Cài với `--ignore-scripts`; `testDb.js` dùng `MONGODB_URI_TEST` (DB `hw2_test`, đọc từ `.env` qua `vitest.config.js`) khi có, ngược lại dùng memory server; chốt an toàn: tên DB phải kết thúc bằng `_test` | `1cc24e7` |
 | AI-018 | HW2 | Tick checkbox bằng PowerShell 5.1 | `(Get-Content f -Raw) -replace … \| Set-Content -Encoding utf8`: `Get-Content` đọc UTF-8 như ANSI và `Set-Content` chèn BOM → tiếng Việt trong `TASK_DECOMPOSITION.md` bị lỗi font (`—` thành `â€”`) | Sai môi trường (encoding) | `git diff --cached` hiện các dòng mojibake (phát hiện sau khi đã push) | Khôi phục nội dung từ `48cca61`, chỉ sửa bằng `sed`/Python UTF-8; không force-push, sửa trong commit kế tiếp | `1cc24e7` → sửa ở `fe87557` |
 | AI-019 | HW2 | Chèn helper `isTextInput` vào `SwipeDeck.jsx` | Chèn hàm ngay trước `export default function` → nằm giữa JSDoc `@param` của component và component | Tài liệu / contract sai chỗ | Review diff trước khi chạy test | Chuyển helper lên trên khối JSDoc | `f00bdd5` |
-| AI-030 | HW2 | Hiệu ứng nghiêng thẻ khi kéo (CSS) | `rotate(calc(var(--drag-x) / 20))` → `calc(90px / 20)` = độ dài `4.5px`, không phải góc → cả khai báo `transform` không hợp lệ, thẻ đứng yên khi kéo (vuốt vẫn hoạt động nên test chức năng không bắt được) | CSS sai đơn vị | Chụp ảnh evidence trên Chrome thật khi đang giữ chuột kéo 90px: thẻ không dịch/nghiêng | JS tính sẵn `--drag-rot: ${dx / 20}deg`, CSS dùng `rotate(var(--drag-rot))`; test kiểm tra `--drag-rot = 4deg` khi kéo 80px và về `0deg` khi thả | `fix: hw2 swipe card drag feedback uses a valid rotate angle` |
+| AI-030 | HW2 | Hiệu ứng nghiêng thẻ khi kéo (CSS) | `rotate(calc(var(--drag-x) / 20))` → `calc(90px / 20)` = độ dài `4.5px`, không phải góc → cả khai báo `transform` không hợp lệ, thẻ đứng yên khi kéo (vuốt vẫn hoạt động nên test chức năng không bắt được) | CSS sai đơn vị | Chụp ảnh evidence trên Chrome thật khi đang giữ chuột kéo 90px: thẻ không dịch/nghiêng | JS tính sẵn `--drag-rot: ${dx / 20}deg`, CSS dùng `rotate(var(--drag-rot))`; test kiểm tra `--drag-rot = 4deg` khi kéo 80px và về `0deg` khi thả | `36a34aa` |
 
 ## HW3 Log
 
@@ -57,10 +57,11 @@
 | AI-027 | HW3 | Test deep link tab con | Dùng `getByRole` (đồng bộ) cho nội dung tab con, quên rằng tab con cũng là `React.lazy` → Suspense đang hiện skeleton | Test sai (async) | Vitest fail: không tìm thấy heading `HM-01`, DOM đang là skeleton | Đổi sang `await findByRole(...)` + comment giải thích | `dc95bfb` |
 | AI-028 | HW3 | Mock API trong test | Destructuring bỏ field `const { confirmEmail, acceptTerms, ...rest } = body` | Lint | oxlint `no-unused-vars` (2 cảnh báo) | Đổi tên `confirmEmail: _confirmEmail` theo quy ước; lint 0 cảnh báo | `dc95bfb` |
 | AI-029 | HW3 | Test "engine không có useEffect" bằng cách đọc source (`?raw`) | Regex `/\buseEffect\b/` khớp cả chữ "useEffect" trong **comment JSDoc** giải thích → test đỏ dù code đúng (false positive) | Test sai | Vitest fail ở `AppealForm.jsx`, kiểm tra thấy chỉ có trong comment | Bỏ comment khỏi source trước khi so khớp; kiểm tra cả `useLayoutEffect` | `9960669` |
+| AI-031 | HW3 | Nhãn hạn SLA trong `SlaCountdown` | Viết cứng `Hết hạn lúc {Intl…format(date)}` trong khi `Intl.DateTimeFormat('vi-VN', { dateStyle, timeStyle })` đã trả về chuỗi bắt đầu bằng "lúc …" → hiển thị "Hết hạn lúc lúc 09:51:45" | Định dạng hiển thị / i18n | Xem ảnh evidence trạng thái hết hạn | Đổi nhãn thành "Thời điểm hết hạn:"; test khẳng định không có "lúc lúc" | `fix: hw3 sla deadline label no longer repeats "lúc"` |
 
 ## Post-Mortem — Lab 4 (HW1 → HW3)
 
-**Tổng quan.** Lab 4 ghi nhận 29 sự cố thật (AI-001 đến AI-029): HW1 có 11, HW2 có 8, HW3 có 10. Tất cả đều được phát hiện bằng công cụ kiểm chứng, không có sự cố nào được bịa thêm cho đủ số lượng.
+**Tổng quan.** Lab 4 ghi nhận 31 sự cố thật (AI-001 đến AI-031): HW1 có 11, HW2 có 9, HW3 có 11. Hai sự cố cuối (AI-030, AI-031) được phát hiện khi chụp ảnh minh chứng sau khi các HW đã commit xong, và được sửa bằng commit `fix:` riêng. Tất cả đều được phát hiện bằng công cụ kiểm chứng, không có sự cố nào được bịa thêm cho đủ số lượng.
 
 ### Loại lỗi AI hay gặp nhất
 
@@ -75,14 +76,16 @@
 | Hallucinated file / giả định sai về môi trường test | 2 | 005, 006 | Import một file chưa tạo; giả định jsdom không hỗ trợ `<dialog>`. Kiểm chứng bằng cách chạy thật thay vì tin vào trí nhớ. |
 | Chính test viết sai | 2 | 027, 029 | Test cũng là code nên cũng có bug: quên chờ async, regex quá rộng. Khi test đỏ, cần xem lỗi nằm ở test hay ở code trước khi sửa. |
 | Tài liệu / contract đặt sai chỗ | 1 | 019 | Nhờ review diff trước khi commit mà phát hiện được. |
+| Hiển thị: CSS sai đơn vị, i18n | 2 | 030, 031 | Logic đúng và test xanh, nhưng UI sai. Chỉ phát hiện được khi **nhìn** vào ảnh chụp trình duyệt thật. |
 
 ### Cách kiểm chứng đã dùng (và nó bắt được gì)
 
-1. **Test tự động (Vitest + Testing Library + supertest)**, tổng cộng 228 test cho 3 HW (HW1: 40; HW2: 20 + 74; HW3: 20 + 22 + 52). Bắt được logic sai, effect loop, tính trôi của đồng hồ (fake timer + `setSystemTime`), sự không khớp giữa client và server (test parity), và lỗi abort/unmount.
+1. **Test tự động (Vitest + Testing Library + supertest)**, tổng cộng 229 test cho 3 HW (HW1: 40; HW2: 20 + 75; HW3: 20 + 22 + 52). Bắt được logic sai, effect loop, tính trôi của đồng hồ (fake timer + `setSystemTime`), sự không khớp giữa client và server (test parity), và lỗi abort/unmount.
 2. **Lint (oxlint, `exhaustive-deps: error`)**. Bắt được lỗi Fast Refresh, render không thuần (`Date.now()`), và biến không dùng.
 3. **Lighthouse trên bản build production.** Bắt được CLS do scrollbar, CLS do skeleton sai kích thước, label-in-name, và thiếu `robots.txt`. HW1 đạt 100/100/100/100 ở cả 5 trang.
 4. **E2E trên Chrome thật (puppeteer-core) + console DevTools.** Bắt được những gì jsdom không mô phỏng được: layout shift nuốt click (AI-025), pointer kéo thật, Backspace, reload giữ state, ẩn tab 150 giây. Console được kiểm tra sạch lỗi và warning sau mỗi lần chạy.
-5. **`npm ls`, `git diff --cached`, đọc trực tiếp MongoDB.** Bắt được sai phiên bản, lỗi encoding trước khi push (AI-018 là bài học vì lỗi này đã lọt qua), và dữ liệu thật trong collection.
+5. **Ảnh chụp minh chứng (`evidence/`).** Nhìn lại từng màn hình đã bắt được 2 lỗi hiển thị mà test, lint và E2E đều bỏ qua (AI-030, AI-031).
+6. **`npm ls`, `git diff --cached`, đọc trực tiếp MongoDB.** Bắt được sai phiên bản, lỗi encoding trước khi push (AI-018 là bài học vì lỗi này đã lọt qua), và dữ liệu thật trong collection.
 
 ### Bài học
 

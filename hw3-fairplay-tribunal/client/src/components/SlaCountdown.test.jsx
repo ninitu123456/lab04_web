@@ -20,6 +20,9 @@ describe('SlaCountdown on the dossier page', () => {
     expect(screen.getByTestId('sla-live')).toHaveTextContent(/^Còn \d+ ngày \d+ giờ \d+ phút để kháng cáo\.$/);
     expect(screen.getByTestId('sla-live')).toHaveAttribute('aria-live', 'polite');
     await waitFor(() => expect(screen.getByText(/đã đồng bộ đồng hồ với máy chủ/i)).toBeInTheDocument());
+    const deadlineLine = screen.getByText(/thời điểm hết hạn/i);
+    expect(deadlineLine.querySelector('time')).toHaveAttribute('datetime', expect.stringMatching(/Z$/));
+    expect(deadlineLine.textContent).not.toMatch(/lúc\s+lúc/); // Intl vi-VN đã chèn "lúc" (AI-031)
   });
 
   it('expired dossier: clear expired state, appeal form blocked without calling POST', async () => {
