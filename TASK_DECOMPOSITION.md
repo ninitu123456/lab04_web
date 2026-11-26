@@ -18,7 +18,7 @@
 | 11 | Refactor | perf: route-level code splitting with lazy and suspense skeleton | [x] |
 | 12 | Implement | feat: 404 route and invalid photoId boundary | [x] |
 | 13 | Refactor | a11y: skip link, focus-visible, aria labels, contrast | [x] |
-| 14 | Refactor | perf: responsive images, explicit dimensions, lighthouse tuning | [ ] |
+| 14 | Refactor | perf: responsive images, explicit dimensions, lighthouse tuning | [x] |
 | 15 | Docs | docs: hw1 readme, lighthouse report and ai failure audit | [ ] |
 
 ## HW2 — Full-Stack Card-Swipe Deck ("Hẹn Hò Nhưng Không Yêu")

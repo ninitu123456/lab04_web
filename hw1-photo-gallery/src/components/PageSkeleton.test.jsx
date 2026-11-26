@@ -16,3 +16,12 @@ describe('PageSkeleton (Suspense fallback)', () => {
     expect(container.querySelectorAll('.skeleton__card')).toHaveLength(4);
   });
 });
+describe('PageSkeleton text variant', () => {
+  it('renders text lines without chips or photo cards', () => {
+    const { container } = render(<PageSkeleton variant="text" />);
+    expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true');
+    expect(container.querySelectorAll('.skeleton__line--text')).toHaveLength(4);
+    expect(container.querySelector('.skeleton__chips')).toBeNull();
+    expect(container.querySelector('.skeleton__card')).toBeNull();
+  });
+});

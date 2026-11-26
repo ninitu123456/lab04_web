@@ -15,6 +15,8 @@ export default function RootLayout() {
   const { pathname } = useLocation();
   const mainRef = useRef(/** @type {HTMLElement | null} */ (null));
   const isFirstRender = useRef(true);
+  // Dẫn xuất trong render: trang Thư viện → skeleton lưới ảnh, trang khác → skeleton văn bản.
+  const skeletonVariant = pathname.startsWith('/gallery') ? 'grid' : 'text';
 
   // SPA không tải lại trang → screen reader không biết đã sang trang mới.
   // Khi đổi ROUTE (pathname, không tính query string) → đưa focus về <main>.
@@ -52,8 +54,8 @@ export default function RootLayout() {
       </header>
 
       <main id="main-content" className="site-main" ref={mainRef} tabIndex={-1}>
-        {/* Suspense boundary cho các route lazy — fallback cùng kích thước nội dung thật. */}
-        <Suspense fallback={<PageSkeleton />}>
+        {/* Suspense boundary cho các route lazy — fallback cùng hình dạng nội dung thật (CLS = 0). */}
+        <Suspense fallback={<PageSkeleton variant={skeletonVariant} />}>
           <Outlet />
         </Suspense>
       </main>

@@ -202,6 +202,7 @@ a { color: var(--color-accent); }
 .skeleton__img { aspect-ratio: 3 / 2; border-radius: 0; }
 .skeleton__line { height: 0.9rem; margin: 0.9rem 1rem 0; width: 60%; }
 .skeleton__line--short { width: 40%; margin-bottom: 1rem; }
+.skeleton__line--text { display: block; height: 1.1rem; margin: 0 0 0.75rem; width: min(560px, 90%); }
 
 @keyframes skeleton-shimmer {
   from { background-position: 200% 0; }
@@ -249,4 +250,5 @@ code {
 .skip-link:focus { transform: translateY(0); }
 .site-main:focus { outline: none; }
 /* WCAG 2.4.11 Focus Not Obscured: phần tử nhận focus không bị header sticky che */
-html { scroll-padding-top: calc(var(--header-h) + 1rem); }
+html { scroll-padding-top: calc(var(--header-h) + 1rem); }/* Giữ chỗ cho scrollbar: skeleton thấp hơn viewport → nội dung thật cao hơn không làm layout dịch ngang (CLS desktop) */
+html { scrollbar-gutter: stable; }
