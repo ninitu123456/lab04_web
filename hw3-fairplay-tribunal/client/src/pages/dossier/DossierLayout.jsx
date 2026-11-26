@@ -3,7 +3,9 @@ import { Suspense } from 'react';
 import { NavLink, Outlet, useParams } from 'react-router';
 import LoadError from '../../components/LoadError.jsx';
 import PageSkeleton from '../../components/PageSkeleton.jsx';
+import SlaCountdown from '../../components/SlaCountdown.jsx';
 import { useDossier } from '../../hooks/useDossier.js';
+import { useServerClockOffset } from '../../hooks/useServerClockOffset.js';
 import NotFoundPage from '../NotFoundPage.jsx';
 
 const tabClass = ({ isActive }) => (isActive ? 'tab tab--active' : 'tab');
@@ -30,6 +32,8 @@ export default function DossierLayout() {
 /** Tách component để hook useDossier chỉ chạy khi slug hợp lệ (không fetch vô ích). */
 function KnownDossier({ playerId }) {
   const { data: dossier, loading, error, notFound, retry } = useDossier(playerId);
+  // Đồng hồ server dùng chung cho countdown (header) và chặn submit (tab kháng cáo).
+  const clock = useServerClockOffset();
 
   if (loading) return <PageSkeleton label="Đang tải hồ sơ…" />;
   if (notFound) return <DossierNotFound playerId={playerId} />;
@@ -48,6 +52,14 @@ function KnownDossier({ playerId }) {
         </div>
       </header>
 
+      <SlaCountdown
+        deadline={dossier.slaDeadline}
+        offset={clock.offset}
+        onResync={clock.resync}
+        synced={clock.synced}
+        syncError={clock.error}
+      />
+
       <nav aria-label={`Mục trong hồ sơ ${dossier.displayName}`} className="tabs">
         <ul className="tab-list">
           {TABS.map((tab) => (
@@ -62,7 +74,7 @@ function KnownDossier({ playerId }) {
 
       <div className="dossier__panel">
         <Suspense fallback={<PageSkeleton />}>
-          <Outlet context={{ dossier }} />
+          <Outlet context={{ dossier, clockOffset: clock.offset }} />
         </Suspense>
       </div>
     </article>

@@ -43,3 +43,51 @@
 | AI-019 | HW2 | Chèn helper `isTextInput` vào `SwipeDeck.jsx` | Chèn hàm ngay trước `export default function` → nằm giữa JSDoc `@param` của component và component | Tài liệu / contract sai chỗ | Review diff trước khi chạy test | Chuyển helper lên trên khối JSDoc | `f00bdd5` |
 
 ## HW3 Log
+
+| ID | HW | Prompt / Ngữ cảnh | Output sai của AI | Loại lỗi | Cách phát hiện | Cách sửa (engineering verification) | Commit |
+|---|---|---|---|---|---|---|---|
+| AI-020 | HW3 | Scaffold client + server HW3 | `npm install react-router` / `npm install mongoose` lấy tag `latest` = React Router **v8** / Mongoose **v9**, trong khi đề yêu cầu v7 / v8 (lặp lại AI-001, AI-012) | Hallucinated API (sai phiên bản) | `npm ls react-router mongoose` | Dùng lại `package.json` đã pin của HW1/HW2: `react-router@^7` (7.18.7), `mongoose@^8` (8.24.11); kiểm tra lại bằng `npm ls` sau khi cài | `7ef505c` |
+| AI-021 | HW3 | Code mẫu slide 33 | Khai báo 2 route cứng `/dossier/himass`, `/dossier/tanvuu` (thêm hồ sơ = thêm route + component, trùng lặp, không có 404 cho id lạ) | Kiến trúc (vi phạm slide 21) | Đối chiếu slide 21 (route động `useParams`) | MỘT route `/dossier/:playerId`; id ngoài `PLAYER_IDS` (contract chung) hoặc server 404 → 404 boundary; test `/dossier/khong-co` | `dc95bfb` |
+| AI-022 | HW3 | Validate form (slide 13) | "Validation waterfall": `useEffect(() => setErrors(validate(values)), [values])` → render thừa 1 nhịp, lỗi hiển thị trễ 1 frame, dễ thành effect loop khi effect set thêm state khác | Effect Loop / derived state sai chỗ | Review theo rule "useEffect chỉ để đồng bộ hệ thống ngoài" | `const clientErrors = validateAppeal(values)` ngay trong render; test đọc source khẳng định `FormContext.js` / `AppealForm.jsx` / `fields.jsx` / `ShowData.jsx` không import/gọi `useEffect` | `9960669` |
+| AI-023 | HW3 | Đồng hồ SLA | Đếm ngược bằng `setRemaining(r => r - 1000)` trong `setInterval` → tab ẩn bị trình duyệt throttle timer → đồng hồ chạy chậm (drift) | Logic thời gian (drift) | Test fake timer: `setSystemTime(+10 phút)` nhưng chỉ chạy 1 tick → đếm tick chỉ giảm 1s | `remainingMs = deadline − (Date.now() + offset)` đọc lại mỗi tick; offset từ `GET /api/time` (điểm giữa t0/t1); `visibilitychange` → resync. E2E Chrome: ẩn tab 150s, lệch 15 ms | commit 5 HW3 (`feat: zero-drift useAppealSlaTimer …`) |
+| AI-024 | HW3 | Phiên bản đầu của `useAppealSlaTimer` | Gọi `Date.now()` trực tiếp trong thân render (`const remainingMs = deadline - (Date.now() + offset)`) | Lint / React purity | oxlint `react(purity)`: "Cannot call impure function during render" | Giữ `now` trong state (`useState(() => Date.now())`), tick/visibility gọi `setNow(Date.now())` — vẫn là giá trị tuyệt đối, không cộng dồn; test (a)–(d) vẫn xanh | commit 5 HW3 |
+| AI-025 | HW3 | Hiện lỗi field khi blur | Bấm "Gửi" khi đang focus một field: `mousedown` → blur → dòng lỗi mới chèn vào → nút submit bị đẩy xuống giữa `mousedown` và `mouseup` → trình duyệt **không phát `click`** → form không submit, người dùng không thấy gì | UX / A11y (layout shift nuốt click) | E2E trên Chrome thật (puppeteer): sau khi gõ email sai rồi click Gửi, không có tóm tắt lỗi; `document.activeElement` là nút nhưng không có submit. jsdom không có layout nên test unit không bắt được | `markTouched(name, event)` bỏ qua khi `event.relatedTarget` là nút submit của chính form (lần submit sẽ hiện mọi lỗi ngay sau đó); thêm test `fireEvent.blur(email, { relatedTarget: submit })`; E2E chạy lại: click ngay sau blur → "Có 6 lỗi cần sửa" | commit 5 HW3 |
+| AI-026 | HW2, HW3 | Ghi nhiều file bằng một lệnh Bash dài (nhiều heredoc `<<'EOF'` + Python inline) | Lệnh bị shell báo `unexpected EOF while looking for matching '` → **không file nào được ghi** (2 lần: test HW2 commit 4, models/routes HW3 commit 2) | Sai môi trường (công cụ) | Thông báo lỗi shell + `ls` thấy thư mục chưa tồn tại | Ghi từng file bằng công cụ ghi file (không qua shell quoting); kiểm tra lại bằng `ls`/`git status` trước khi chạy test | `f00bdd5`, `f71922c` |
+| AI-027 | HW3 | Test deep link tab con | Dùng `getByRole` (đồng bộ) cho nội dung tab con, quên rằng tab con cũng là `React.lazy` → Suspense đang hiện skeleton | Test sai (async) | Vitest fail: không tìm thấy heading `HM-01`, DOM đang là skeleton | Đổi sang `await findByRole(...)` + comment giải thích | `dc95bfb` |
+| AI-028 | HW3 | Mock API trong test | Destructuring bỏ field `const { confirmEmail, acceptTerms, ...rest } = body` | Lint | oxlint `no-unused-vars` (2 cảnh báo) | Đổi tên `confirmEmail: _confirmEmail` theo quy ước; lint 0 cảnh báo | `dc95bfb` |
+| AI-029 | HW3 | Test "engine không có useEffect" bằng cách đọc source (`?raw`) | Regex `/\buseEffect\b/` khớp cả chữ "useEffect" trong **comment JSDoc** giải thích → test đỏ dù code đúng (false positive) | Test sai | Vitest fail ở `AppealForm.jsx`, kiểm tra thấy chỉ có trong comment | Bỏ comment khỏi source trước khi so khớp; kiểm tra cả `useLayoutEffect` | `9960669` |
+
+## Post-Mortem — Lab 4 (HW1 → HW3)
+
+**Tổng quan.** Lab 4 ghi nhận 29 sự cố thật (AI-001 đến AI-029): HW1 có 11, HW2 có 8, HW3 có 10. Tất cả đều được phát hiện bằng công cụ kiểm chứng, không có sự cố nào được bịa thêm cho đủ số lượng.
+
+### Loại lỗi AI hay gặp nhất
+
+| Nhóm | Số lượng | ID | Nhận xét |
+|---|---|---|---|
+| Sai môi trường / công cụ (Windows, PowerShell 5.1, encoding, mạng, đường dẫn) | 8 | 002, 003, 009, 010, 013, 017, 018, 026 | Nhiều nhất. AI mặc định môi trường là bash/Linux/UTF-8/mạng tốt. Lỗi kiểu này không nằm trong code nên test không bắt được; phải đọc kỹ thông báo của shell và `git diff`. |
+| Code mẫu trong slide có lỗi / anti-pattern | 5 | 014, 015, 021, 022, 023 | Slide minh hoạ ngắn gọn nên bỏ qua guard null, dùng `useState` sai chỗ, hardcode route, dùng effect để validate, đếm tick. Không chép nguyên văn mà đối chiếu với rule trong `project-rules.md`. |
+| Sai phiên bản (`latest` ≠ phiên bản đề yêu cầu) | 3 | 001, 012, 020 | Lặp lại ở cả 3 HW. Bài học: luôn ghi rõ `pkg@^major` khi cài và kiểm tra bằng `npm ls` ngay sau đó. |
+| A11y / UX | 3 | 007, 016, 025 | Label-in-name, Backspace điều hướng lùi, layout shift nuốt mất click. Cả ba đều pass test unit nhưng fail trên trình duyệt thật hoặc Lighthouse. |
+| Lint / quy tắc React (Fast Refresh, purity, unused) | 3 | 004, 024, 028 | Bật oxlint với `react/exhaustive-deps: error` từ commit đầu giúp bắt lỗi sớm. |
+| Performance (CLS, re-render thừa) | 2 (+015) | 008, 011 | Chỉ đo được trên bản build production bằng Lighthouse. Dev server không phản ánh đúng. |
+| Hallucinated file / giả định sai về môi trường test | 2 | 005, 006 | Import một file chưa tạo; giả định jsdom không hỗ trợ `<dialog>`. Kiểm chứng bằng cách chạy thật thay vì tin vào trí nhớ. |
+| Chính test viết sai | 2 | 027, 029 | Test cũng là code nên cũng có bug: quên chờ async, regex quá rộng. Khi test đỏ, cần xem lỗi nằm ở test hay ở code trước khi sửa. |
+| Tài liệu / contract đặt sai chỗ | 1 | 019 | Nhờ review diff trước khi commit mà phát hiện được. |
+
+### Cách kiểm chứng đã dùng (và nó bắt được gì)
+
+1. **Test tự động (Vitest + Testing Library + supertest)**, tổng cộng 228 test cho 3 HW (HW1: 40; HW2: 20 + 74; HW3: 20 + 22 + 52). Bắt được logic sai, effect loop, tính trôi của đồng hồ (fake timer + `setSystemTime`), sự không khớp giữa client và server (test parity), và lỗi abort/unmount.
+2. **Lint (oxlint, `exhaustive-deps: error`)**. Bắt được lỗi Fast Refresh, render không thuần (`Date.now()`), và biến không dùng.
+3. **Lighthouse trên bản build production.** Bắt được CLS do scrollbar, CLS do skeleton sai kích thước, label-in-name, và thiếu `robots.txt`. HW1 đạt 100/100/100/100 ở cả 5 trang.
+4. **E2E trên Chrome thật (puppeteer-core) + console DevTools.** Bắt được những gì jsdom không mô phỏng được: layout shift nuốt click (AI-025), pointer kéo thật, Backspace, reload giữ state, ẩn tab 150 giây. Console được kiểm tra sạch lỗi và warning sau mỗi lần chạy.
+5. **`npm ls`, `git diff --cached`, đọc trực tiếp MongoDB.** Bắt được sai phiên bản, lỗi encoding trước khi push (AI-018 là bài học vì lỗi này đã lọt qua), và dữ liệu thật trong collection.
+
+### Bài học
+
+- **Contract trước, rồi mới viết code.** Khi rule nằm trong một hàm thuần dùng chung (`shared/appealRules.js`, `lib/score.js`, `lib/disproportionality.js`), mỗi rule chỉ cần test một lần, cả client và server cùng dùng, và không thể lệch nhau.
+- **Derived state là mặc định.** Điểm số, deck còn lại, lỗi form, ma trận và thời gian còn lại đều tính được trong render. Chỉ dùng `useEffect` cho hệ thống bên ngoài: dialog, focus, fetch, timer, event listener. Mỗi effect đều có cleanup và AbortController.
+- **Thời gian thì đọc từ đồng hồ tuyệt đối, không đếm tick.** Timer của trình duyệt không đáng tin khi tab bị ẩn.
+- **jsdom không phải trình duyệt.** Các lỗi về layout, pointer và hiệu năng chỉ lộ ra trên Chrome thật hoặc Lighthouse. Vì vậy cuối mỗi HW đều có một vòng E2E thật.
+- **Không tin `latest`, không tin môi trường mặc định.** Hãy pin phiên bản, dùng `127.0.0.1` thay cho `localhost`, dùng `--env-file` thay cho dotenv, và trên Windows thì chú ý encoding UTF-8 và chữ hoa/thường của ổ đĩa.
+- **Ghi lại sự cố ngay khi gặp.** Audit viết trong cùng commit với bản sửa nên có commit hash thật và đủ chi tiết để người khác tái hiện được.

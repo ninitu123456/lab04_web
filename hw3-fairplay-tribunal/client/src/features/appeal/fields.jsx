@@ -67,7 +67,7 @@ export function InputField({ name, label, type = 'text', hint, autoComplete, req
         inputMode={inputMode}
         required={required}
         onChange={(e) => setValue(name, e.target.value)}
-        onBlur={() => markTouched(name)}
+        onBlur={(e) => markTouched(name, e)}
       />
       <FieldMessages hint={hint} hintId={hintId} error={error} errorId={errorId} />
     </div>
@@ -93,7 +93,7 @@ export function SelectField({ name, label, hint, required = false, placeholder =
         value={String(values[name] ?? '')}
         required={required}
         onChange={(e) => setValue(name, e.target.value)}
-        onBlur={() => markTouched(name)}
+        onBlur={(e) => markTouched(name, e)}
       >
         <option value="">{placeholder}</option>
         {options.map((o) => (
@@ -132,7 +132,7 @@ export function TextareaField({ name, label, hint, required = false, minLength, 
         value={value}
         required={required}
         onChange={(e) => setValue(name, e.target.value)}
-        onBlur={() => markTouched(name)}
+        onBlur={(e) => markTouched(name, e)}
       />
       <p id={counterId} className="field__counter" aria-live="polite">
         {length}
@@ -156,7 +156,7 @@ export function CheckboxField({ name, label, hint }) {
           type="checkbox"
           checked={values[name] === true}
           onChange={(e) => setValue(name, e.target.checked)}
-          onBlur={() => markTouched(name)}
+          onBlur={(e) => markTouched(name, e)}
         />
         <label htmlFor={id} className="field__label">
           {label}

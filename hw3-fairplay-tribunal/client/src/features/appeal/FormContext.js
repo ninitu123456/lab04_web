@@ -7,7 +7,7 @@ import { createContext, useContext } from 'react';
  * @typedef {{
  *   values: AppealInput,
  *   setValue: (name: FieldName, value: AppealInput[FieldName]) => void,
- *   markTouched: (name: FieldName) => void,
+ *   markTouched: (name: FieldName, event?: import('react').FocusEvent) => void,
  *   errorFor: (name: FieldName) => string | undefined,
  * }} FormContextValue
  */

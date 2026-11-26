@@ -41,4 +41,4 @@
 | 2 | feat: dossier & appeal models, rest api with shared validation parity | [x] |
 | 3 | feat: multi-route dossier navigation with derived disproportionality matrix | [x] |
 | 4 | feat: context-driven appeal form engine with real-time validation | [x] |
-| 5 | feat: zero-drift useAppealSlaTimer with visibilitychange resync + post-mortem docs | [ ] |
+| 5 | feat: zero-drift useAppealSlaTimer with visibilitychange resync + post-mortem docs | [x] |

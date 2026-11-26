@@ -216,6 +216,14 @@ textarea.field__control { resize: vertical; }
 .show-data h3:focus { outline: none; }
 .show-data__statement { white-space: pre-wrap; }
 
+/* ---------- SLA countdown ---------- */
+.sla { margin: 0 0 1.25rem; padding: 0.75rem 1rem; border-radius: var(--radius); background: var(--color-surface); border-left: 4px solid var(--color-accent); }
+.sla--expired { border-left-color: var(--color-danger); }
+.sla__title { margin: 0; font-size: 1rem; color: var(--color-muted); }
+.sla__value { margin: 0.25rem 0; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sla__value--expired { color: var(--color-danger); }
+.sla__deadline, .sla__sync { margin: 0; color: var(--color-muted); font-size: 0.875rem; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

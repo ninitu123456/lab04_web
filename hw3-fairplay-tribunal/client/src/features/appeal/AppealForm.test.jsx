@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMockApi } from '../../test/mockApi.js';
 import { renderRoute } from '../../test/renderRoute.jsx';
@@ -77,6 +77,19 @@ describe('AppealForm — real-time validation', () => {
     await user.clear(email);
     await user.type(email, 'abc@example.com'); // sửa → lỗi biến mất ngay (derived)
     expect(email).not.toHaveAttribute('aria-invalid');
+  });
+
+  it('blurring a field straight onto the submit button does not shift the layout before the click (AI-025)', async () => {
+    const { user } = await openForm();
+    const email = field('Email liên hệ');
+    const submit = screen.getByRole('button', { name: /gửi kháng cáo/i });
+    await user.type(email, 'abc');
+    fireEvent.blur(email, { relatedTarget: submit }); // mousedown trên nút submit
+    expect(email).not.toHaveAttribute('aria-invalid'); // chưa chèn dòng lỗi → nút không bị đẩy đi
+
+    await user.click(submit);
+    expect(email).toHaveAttribute('aria-invalid', 'true'); // submit hiện đầy đủ lỗi
+    expect(screen.getByRole('alert', { name: /lỗi cần sửa/i })).toBeInTheDocument();
   });
 
   it('reports a cross-field error when confirmEmail does not match', async () => {

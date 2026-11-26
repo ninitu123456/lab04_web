@@ -60,8 +60,19 @@ export default function AppealForm({ playerId, playerNames = {}, expired = false
   const visibleErrors = APPEAL_FIELDS.filter((name) => errorFor(name));
 
   const setValue = (name, value) => setValues((prev) => ({ ...prev, [name]: value }));
-  const markTouched = (name) =>
+  /**
+   * Đánh dấu field đã rời khỏi (blur) → bắt đầu hiện lỗi của field đó.
+   * NGOẠI LỆ: focus đang chuyển sang chính nút submit của form. Nếu hiện lỗi lúc này, dòng lỗi mới
+   * đẩy nút xuống giữa mousedown và mouseup → trình duyệt không phát "click" → form không submit
+   * (bug thật phát hiện khi E2E trên Chrome, xem AI-025). Lần submit sẽ hiện mọi lỗi ngay sau đó.
+   * @param {import('./FormContext.js').FieldName} name
+   * @param {FocusEvent | import('react').FocusEvent} [event]
+   */
+  const markTouched = (name, event) => {
+    const next = event?.relatedTarget;
+    if (next instanceof HTMLElement && next.getAttribute('type') === 'submit' && formRef.current?.contains(next)) return;
     setTouched((prev) => (prev.has(name) ? prev : new Set(prev).add(name)));
+  };
 
   /** Focus theo `name` (form.elements) — gọi ngay trong event handler, không cần effect. */
   const focusField = (name) => {
