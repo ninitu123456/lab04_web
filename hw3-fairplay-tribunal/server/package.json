@@ -5,7 +5,8 @@
   "scripts": {
     "test": "vitest run",
     "dev": "node --watch --env-file=.env src/server.js",
-    "start": "node --env-file=.env src/server.js"
+    "start": "node --env-file=.env src/server.js",
+    "seed": "node --env-file=.env scripts/seed.js"
   },
   "keywords": [],
   "author": "",

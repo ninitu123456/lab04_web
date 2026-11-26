@@ -1,5 +1,7 @@
 import cors from 'cors';
 import express from 'express';
+import { appealsRouter } from './routes/appeals.js';
+import { dossiersRouter } from './routes/dossiers.js';
 
 /**
  * Tạo Express app (KHÔNG listen, KHÔNG kết nối DB) → test được bằng supertest.
@@ -14,6 +16,9 @@ export function createApp({ clientOrigin }) {
   app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', time: new Date().toISOString() });
   });
+
+  app.use('/api', dossiersRouter);
+  app.use('/api', appealsRouter);
 
   // 404 cho mọi route /api không tồn tại
   app.use('/api', (_req, res) => {
